@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\UserAPIController;
 use App\Http\Controllers\API\PlanAPIController;
@@ -8,12 +7,17 @@ use App\Http\Controllers\API\SubscriptionAPIController;
 use App\Http\Controllers\API\GameSessionAPIController;
 use App\Http\Controllers\API\AuthController;
 
-// 🛡️ Authentication Routes (Sanctum) - To be implemented next
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+use App\Http\Controllers\UserController;
 
-// 🧑‍💻 User Routes
+/*
+ * Authentication Routes
+ */
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+/*
+ * User Routes
+ */
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users', [UserAPIController::class, 'index']);
     Route::post('/users', [UserAPIController::class, 'store']);
@@ -22,7 +26,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/users/{id}', [UserAPIController::class, 'destroy']);
 });
 
-// 📜 Plan Routes
+/*
+ * Plan Routes
+ */
 Route::get('/plans', [PlanAPIController::class, 'index']);
 Route::get('/plans/{id}', [PlanAPIController::class, 'show']);
 Route::middleware('auth:sanctum')->group(function () {
@@ -31,7 +37,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/plans/{id}', [PlanAPIController::class, 'destroy']);
 });
 
-// 🔄 Subscription Routes
+/*
+ * Subscription Routes
+ */
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/subscriptions', [SubscriptionAPIController::class, 'index']);
     Route::post('/subscriptions', [SubscriptionAPIController::class, 'store']);
@@ -40,7 +48,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/subscriptions/{id}', [SubscriptionAPIController::class, 'destroy']);
 });
 
-// 🎮 Game Session Routes
+/*
+ * Game Session Routes
+ */
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/game-sessions', [GameSessionAPIController::class, 'index']);
     Route::post('/game-sessions', [GameSessionAPIController::class, 'store']);
