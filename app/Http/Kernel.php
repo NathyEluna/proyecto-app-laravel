@@ -34,5 +34,6 @@ class Kernel extends HttpKernel
 
     protected $middlewareAliases = [
         'auth:sanctum' => \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+        'cors' => \Illuminate\Http\Middleware\HandleCors::class,
     ];
 }
